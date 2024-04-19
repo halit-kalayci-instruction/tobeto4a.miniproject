@@ -12,6 +12,7 @@ public interface BookMapper {
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class); // kalıp
 
     @Mapping(target="isbn", source = "serialNumber")
+    //@Mapping(target = "category.id", source = "categoryId")
     Book bookFromCreateRequest(CreateBookRequest createBookRequest);
 
     ListBookResponse listResponseFromBook(Book book);

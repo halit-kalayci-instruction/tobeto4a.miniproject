@@ -24,4 +24,8 @@ public class Book {
     private int pageCount; // camelCase
 
     private String isbn;
+
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    private Category category;
 }
