@@ -5,7 +5,9 @@ import com.tobeto.miniproject.entities.Category;
 import com.tobeto.miniproject.repositories.BookRepository;
 import com.tobeto.miniproject.repositories.CategoryRepository;
 import com.tobeto.miniproject.services.abstracts.BookService;
+import com.tobeto.miniproject.services.abstracts.CategoryService;
 import com.tobeto.miniproject.services.dtos.requests.CreateBookRequest;
+import com.tobeto.miniproject.services.dtos.responses.CreateBookResponse;
 import com.tobeto.miniproject.services.dtos.responses.ListBookResponse;
 import com.tobeto.miniproject.services.mappers.BookMapper;
 import org.springframework.stereotype.Service;
@@ -17,28 +19,27 @@ public class BookServiceImpl implements BookService
 {
     // Dependency Injection
     private BookRepository bookRepository;
-    private CategoryRepository categoryRepository;
-    public BookServiceImpl(BookRepository bookRepository, CategoryRepository categoryRepository) {
+    private CategoryService categoryService;
+    public BookServiceImpl(BookRepository bookRepository, CategoryService categoryService) {
         this.bookRepository = bookRepository;
-        this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
     }
 
     @Override
-    public void add(CreateBookRequest createBookRequest) {
+    public CreateBookResponse add(CreateBookRequest createBookRequest) {
         // Run-Time Error
-        //
-        Category category = categoryRepository
-                .findById(createBookRequest.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Böyle bir kategori bilgisi yok."));
+        Category category = categoryService
+                .findById(createBookRequest.getCategoryId());
         // Breakpoint
         Book book = BookMapper.INSTANCE.bookFromCreateRequest(createBookRequest);
         // FK ile bağlı entityler => Mapping ile set etmek istenmez.
         book.setCategory(category);
-        //
-        // 10.25
         // Compile-Time Error
         // No Error => BUG => DEBUGGING
         book = bookRepository.save(book);
+
+        CreateBookResponse response = BookMapper.INSTANCE.createResponseFromBook(book);
+        return response;
     }
 
     @Override

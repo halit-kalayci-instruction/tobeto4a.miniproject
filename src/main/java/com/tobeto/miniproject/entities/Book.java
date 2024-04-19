@@ -25,7 +25,13 @@ public class Book {
 
     private String isbn;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name="category_id")
     private Category category;
 }
+// Cascade
+    // REMOVE => Bir entity silinirse, ona bağlı entityler de silinir
+
+// Fetch => İlişkili verinin ne zaman yükleneceğini belirtir.
+    // LAZY => Veri başlangıçta değil ilk kullanıldığında yüklenir.
+    // EAGER => Veri başlangıçta (ana sorguda) yüklenir.

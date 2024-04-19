@@ -2,6 +2,7 @@ package com.tobeto.miniproject.services.mappers;
 
 import com.tobeto.miniproject.entities.Book;
 import com.tobeto.miniproject.services.dtos.requests.CreateBookRequest;
+import com.tobeto.miniproject.services.dtos.responses.CreateBookResponse;
 import com.tobeto.miniproject.services.dtos.responses.ListBookResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,4 +17,7 @@ public interface BookMapper {
     Book bookFromCreateRequest(CreateBookRequest createBookRequest);
 
     ListBookResponse listResponseFromBook(Book book);
+
+    @Mapping(target = "categoryName", source = "category.name")
+    CreateBookResponse createResponseFromBook(Book book);
 }
