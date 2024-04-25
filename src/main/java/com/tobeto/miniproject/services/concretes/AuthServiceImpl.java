@@ -46,5 +46,7 @@ public class AuthServiceImpl implements AuthService {
 
         if(!authentication.isAuthenticated())
             throw new BusinessException("E-posta ya da şifre yanlış.");
+
+        // TODO: JWT Oluştur ve kullanıcıya ver.
     }
 }

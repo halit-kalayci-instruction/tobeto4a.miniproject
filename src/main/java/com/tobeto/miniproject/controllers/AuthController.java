@@ -1,6 +1,7 @@
 package com.tobeto.miniproject.controllers;
 
 import com.tobeto.miniproject.services.abstracts.AuthService;
+import com.tobeto.miniproject.services.dtos.requests.LoginRequest;
 import com.tobeto.miniproject.services.dtos.requests.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +17,10 @@ public class AuthController {
 
 
     @PostMapping("login")
-    public String login()
+    public String login(@RequestBody LoginRequest loginRequest)
     {
-        return "abc1239b124kabda";
+        authService.login(loginRequest);
+        return "";
     }
 
     @PostMapping("register")
