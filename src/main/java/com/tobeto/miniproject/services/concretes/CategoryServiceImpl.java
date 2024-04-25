@@ -16,6 +16,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category findById(int id) {
+
         return categoryRepository.findById(id).orElseThrow(() -> new BusinessException("Böyle bir kategori bulunamadı."));
     }
 }

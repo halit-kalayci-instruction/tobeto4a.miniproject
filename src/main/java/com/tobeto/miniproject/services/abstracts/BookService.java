@@ -14,4 +14,6 @@ public interface BookService
     void delete(int id);
     List<ListBookResponse> getAll();
     Book getById(int id);
+
+    List<ListBookResponse> findByAuthorName(String authorName, int page, int pageSize);
 }

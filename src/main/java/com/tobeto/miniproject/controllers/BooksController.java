@@ -35,4 +35,12 @@ public class BooksController {
     {
         return bookService.getById(id);
     }
+
+    @GetMapping("findByAuthorName")
+    public List<ListBookResponse> findByAuthorName(@RequestParam String authorName,
+                                                   @RequestParam int page,
+                                                   @RequestParam int pageSize)
+    {
+        return bookService.findByAuthorName(authorName,page,pageSize);
+    }
 }

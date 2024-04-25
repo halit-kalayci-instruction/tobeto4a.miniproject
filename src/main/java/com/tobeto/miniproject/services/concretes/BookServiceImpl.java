@@ -10,8 +10,10 @@ import com.tobeto.miniproject.services.dtos.requests.CreateBookRequest;
 import com.tobeto.miniproject.services.dtos.responses.CreateBookResponse;
 import com.tobeto.miniproject.services.dtos.responses.ListBookResponse;
 import com.tobeto.miniproject.services.mappers.BookMapper;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -69,5 +71,17 @@ public class BookServiceImpl implements BookService
     @Override
     public Book getById(int id) {
         return null;
+    }
+
+    @Override
+    public List<ListBookResponse> findByAuthorName(String authorName, int page, int pageSize) {
+        List<Book> books = bookRepository.searchByAuthorTop3(authorName, PageRequest.of(page, pageSize));
+
+        List<ListBookResponse> response = books.
+                stream()
+                .map((book) -> BookMapper.INSTANCE.listResponseFromBook(book))
+                .toList();
+
+        return response;
     }
 }
