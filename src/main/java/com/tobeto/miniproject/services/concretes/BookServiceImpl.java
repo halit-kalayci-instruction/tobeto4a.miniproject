@@ -67,7 +67,7 @@ public class BookServiceImpl implements BookService
 
         return list;
     }
-
+   // 2.15 - Spring Security
     @Override
     public Book getById(int id) {
         return null;
