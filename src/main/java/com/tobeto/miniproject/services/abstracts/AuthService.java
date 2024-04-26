@@ -5,5 +5,5 @@ import com.tobeto.miniproject.services.dtos.requests.RegisterRequest;
 
 public interface AuthService {
     void register(RegisterRequest request);
-    void login(LoginRequest request);
+    String login(LoginRequest request);
 }

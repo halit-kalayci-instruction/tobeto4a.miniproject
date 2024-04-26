@@ -1,5 +1,6 @@
 package com.tobeto.miniproject.core.configurations;
 
+import com.tobeto.miniproject.core.filters.JwtFilter;
 import com.tobeto.miniproject.services.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +14,14 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration
 {
     private final UserService userService;
+    private final JwtFilter jwtFilter;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -43,9 +46,14 @@ public class SecurityConfiguration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req-> req.anyRequest().permitAll())
-                .httpBasic(AbstractHttpConfigurer::disable);
+                .csrf(AbstractHttpConfigurer::disable) //
+                .authorizeHttpRequests(req->
+                        req
+                                .requestMatchers("/api/v1/books/**").authenticated()
+                                .anyRequest().permitAll()
+                )
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

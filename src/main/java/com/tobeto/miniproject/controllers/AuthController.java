@@ -19,8 +19,7 @@ public class AuthController {
     @PostMapping("login")
     public String login(@RequestBody LoginRequest loginRequest)
     {
-        authService.login(loginRequest);
-        return "";
+        return authService.login(loginRequest);
     }
 
     @PostMapping("register")
